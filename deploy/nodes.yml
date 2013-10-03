@@ -1,0 +1,22 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: True
+  tasks:
+    - name: Refresh apt cache 1
+      apt: update_cache=yes
+    - name: Install base packages and other usefulness
+      action: apt pkg=$item state=installed update_cache=yes
+      with_items:
+        - language-pack-en-base
+        - ubuntu-cloud-keyring
+        - python-apt
+        - python-pycurl
+    - name: Refresh apt cache 2
+      apt: update_cache=yes
+    - name: Add cloud repo
+      apt_repository: repo='deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present update_cache=yes
+    - name: Add cloud src repo
+      apt_repository: repo='deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present
+    - name: Update system
+      apt: upgrade=dist update_cache=yes

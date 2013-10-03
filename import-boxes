@@ -1,0 +1,16 @@
+#!/bin/bash
+
+BOX_URL="http://files.vagrantup.com/precise64.box"
+BOX_FNAME="precise64.box"
+BOX_STORAGE="$HOME/VagrantBoxes"
+
+if [ ! -d ${BOX_STORAGE} ]; then
+    mkdir -p ${BOX_STORAGE}
+    echo "Didnt find an image, downloading pristine box now ..."
+    wget -O "${BOX_STORAGE}/${BOX_FNAME}" ${BOX_URL}
+fi
+
+vagrant box add maas "${BOX_STORAGE}/${BOX_FNAME}"
+for IMG in {1..10}; do
+    vagrant box add node$IMG "${BOX_STORAGE}/${BOX_FNAME}"
+done

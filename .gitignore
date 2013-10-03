@@ -16,3 +16,7 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# Ansible
+.vagrant*
+vagrant_ansible_inventory_*
