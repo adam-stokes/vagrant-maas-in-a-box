@@ -8,9 +8,10 @@ potential client?
 
 # What you get
 
-1 MAAS server, 10 Nodes
+1 MAAS server, 1-99 Nodes
 
 ## In the pipeline:
+
 - Add some juju love
 - Add nodes from different virtualization platforms.
 
@@ -45,14 +46,15 @@ ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/de
 * Running a time gives me about: not long >:)
 * System: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz, 8 cpu's, 12G ram
 
-# Provisioning
+# Maas IP setup
 
-The previous installer step should've run ansible after image was
-loaded. If not just run the below command
+On your maas instance enable port forwarding.
 
 ```
-% vagrant provision maas
-% vagrant provision nodeX
+echo 1 > /proc/sys/net/ipv4/ip_forward
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -A FORWARD -i eth0 -o eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
 ```
 
 # Accessing
@@ -60,6 +62,40 @@ loaded. If not just run the below command
 In your browser visit `http://localhost:8080/MAAS`
 
 Default login and password: `admin` `pass`
+
+# Do you Juju
+
+```
+sudo add-apt-repository ppa:juju/stable
+sudo apt-get update && sudo apt-get install juju-core
+
+```
+
+## Edit environments.yaml
+
+Copy your $APIKEY(MAAS keys) from `http://localhost:8080/MAAS/account/prefs/` and replace that in the `maas-oauth` section
+
+```
+maas:
+  type: maas
+  maas-server: 'http://localhost:8080/MAAS'
+  maas-oauth: '$APIKEY'
+  admin-secret: 'nothing'
+  default-series: 'precise'
+  # Generating key pair
+  # % ssh-keygen
+  # Follow prompts, then `cat <key.pub>` and append this to `authorized-keys`
+  authorized-keys: ssh-rsa <ssh-rsa string>
+```
+
+## Boostrap
+
+`sudo juju bootstrap`
+
+# Environment Variables
+
+* MAAS_NUM_NODES = Sets how many nodes you wish to activate, valid range is 1-99
+* MAAS_NODE_GUI  = Starts your instances with VirtualBox gui enabled.
 
 # Author
 

@@ -3,8 +3,6 @@
   user: vagrant
   sudo: True
   tasks:
-    - name: Refresh apt cache 1
-      apt: update_cache=yes
     - name: Install base packages and other usefulness
       action: apt pkg=$item state=installed update_cache=yes
       with_items:
@@ -12,14 +10,12 @@
         - ubuntu-cloud-keyring
         - python-apt
         - python-pycurl
-    - name: Refresh apt cache 2
-      apt: update_cache=yes
     - name: Add cloud repo
       apt_repository: repo='deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present update_cache=yes
     - name: Add cloud src repo
       apt_repository: repo='deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present
     - name: Update system
-      apt: upgrade=dist update_cache=yes
+      apt: upgrade=dist
     - name: Install maas packages
       shell: DEBIAN_FRONTEND=noninteractive apt-get install -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -f -q -y maas maas-dns maas-dhcp </dev/null
     - name: Add maas superuser
