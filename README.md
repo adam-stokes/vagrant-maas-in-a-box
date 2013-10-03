@@ -17,10 +17,20 @@ potential client?
 # Pre-reqs
 
 * Needs virtualbox `% sudo apt-get install virtualbox`
-* Needs [vagrant][2] 1.3.3
+* Needs [vagrant][2] 1.3.3 until [bug #2307][4] can be fixed.
 * Needs [ansible][3] installed on host machine
 
 # Install
+
+Disable ansible's ssh host checking, edit `/etc/ansible/ansible.cfg` and alter the following
+
+```
+[ssh_connection]
+# ssh arguments to use
+# Leaving off ControlPersist will result in poor performance, so use.
+# paramiko on older platforms rather than removing it
+ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+```
 
 ```
 % git clone git://github.com:battlemidget/vagrant-maas.git
@@ -61,4 +71,5 @@ Apache 2.0
  [1]: http://maas.ubuntu.com
  [2]: http://vagrantup.com
  [3]: http://ansibleworks.com/docs/gettingstarted.html#ubuntu-and-debian
+ [4]: https://github.com/mitchellh/vagrant/issues/2307
 
