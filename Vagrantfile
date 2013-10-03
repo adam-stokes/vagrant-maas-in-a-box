@@ -12,49 +12,49 @@ MAAS_MEM = '1024'
 # Node Properties
 NODE_MEM = '512'
 
-# IP's range at 10.0.3.[100:110]
+# IP's range at 192.168.50.[100:110]
 # Keep this in mind when configuring your cluster controller's min/max ip ranges
 # Hardcoded mac addresses are used for nodes 1-10, use them when commissioning nodes
 # in the webui.
 BOXES = {
   node1: {
-    ip: '10.0.3.101',
+    ip: '192.168.50.101',
     mac: '00163e71d5e7',
   },
   node2: {
-    ip: '10.0.3.102',
+    ip: '192.168.50.102',
     mac: '00163e6c125e',
   },
   node3: {
-    ip: '10.0.3.103',
+    ip: '192.168.50.103',
     mac: '00163e57190c',
   },
   node4: {
-    ip: '10.0.3.104',
+    ip: '192.168.50.104',
     mac: '00163e32b203',
   },
   node5: {
-    ip: '10.0.3.105',
+    ip: '192.168.50.105',
     mac: '00163e249ef7',
   },
   node6: {
-    ip: '10.0.3.106',
+    ip: '192.168.50.106',
     mac: '00163e214337',
   },
   node7: {
-    ip: '10.0.3.107',
+    ip: '192.168.50.107',
     mac: '00163e257a65',
   },
   node8: {
-    ip: '10.0.3.108',
+    ip: '192.168.50.108',
     mac: '00163e538c23',
   },
   node9: {
-    ip: '10.0.3.109',
+    ip: '192.168.50.109',
     mac: '00163e30eaff',
   },
   node10: {
-    ip: '10.0.3.110',
+    ip: '192.168.50.110',
     mac: '00163e11b240',
   },
 }
@@ -64,12 +64,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "maas", primary: true do |maas|
     maas.vm.box = "maas"
     maas.vm.hostname = "maascontroller"
-    maas.vm.network :private_network, ip: "10.0.3.100"
+    maas.vm.network :private_network, ip: "192.168.50.100"
     maas.vm.network :forwarded_port, guest: 80, host: 8080
     maas.vm.provider "virtualbox" do |vbox|
       vbox.gui = false
       vbox.name = "maascontroller"
-      vbox.customize ["modifyvm", :id, "--memory", "#{MAAS_MEM}"]
+      vbox.customize ["modifyvm", :id, "--memory", "#{MAAS_MEM}", "--nicpromisc3", "allow-all"]
       vbox.vm.box_url = "http://files.vagrantup.com/precise64.box"
     end
     maas.vm.provision "ansible" do |ansible|
@@ -88,6 +88,7 @@ Vagrant.configure("2") do |config|
         vbox.name = "#{node_name}"
         vbox.vm.box_url = "http://files.vagrantup.com/precise64.box"
         vbox.customize ["modifyvm", :id, "--memory", "#{NODE_MEM}"]
+        vbox.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
       end
       vm_conf.vm.provision "ansible" do |ansible|
         ansible.playbook = "deploy/nodes.yml"

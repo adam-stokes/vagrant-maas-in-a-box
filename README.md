@@ -20,7 +20,7 @@ potential client?
 * Needs [vagrant][2] 1.3.3 until [bug #2307][4] can be fixed.
 * Needs [ansible][3] installed on host machine
 
-# Install
+# Setup
 
 Disable ansible's ssh host checking, edit `/etc/ansible/ansible.cfg` and alter the following
 
@@ -32,6 +32,7 @@ Disable ansible's ssh host checking, edit `/etc/ansible/ansible.cfg` and alter t
 ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 ```
 
+# Install
 ```
 % git clone git://github.com:battlemidget/vagrant-maas.git
 % cd vagrant-maas

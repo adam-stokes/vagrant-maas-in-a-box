@@ -20,3 +20,7 @@
       apt_repository: repo='deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present
     - name: Update system
       apt: upgrade=dist update_cache=yes
+    - name: install maas-enlist tool
+      apt: pkg=maas-enlist state=installed
+    - name: enlist node into maas
+      shell: maas-enlist --serverurl 192.168.50.100 --interface eth1
