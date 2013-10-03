@@ -72,7 +72,7 @@ sudo apt-get update && sudo apt-get install juju-core
 
 ## Edit environments.yaml
 
-Copy your *$APIKEY(MAAS keys)* from `http://localhost:8080/MAAS/account/prefs/` and replace that in the `maas-oauth` section
+Copy your **$APIKEY(MAAS keys)** from `http://localhost:8080/MAAS/account/prefs/` and replace that in the `maas-oauth` section
 
 ```
 maas:
@@ -93,8 +93,8 @@ maas:
 
 # Environment Variables
 
-* *MAAS_NUM_NODES* = Sets how many nodes you wish to activate, valid range is 1-99
-* *MAAS_NODE_GUI*  = Starts your instances with VirtualBox gui enabled.
+* **MAAS_NUM_NODES** = Sets how many nodes you wish to activate, valid range is 1-99
+* **MAAS_NODE_GUI**  = Starts your instances with VirtualBox gui enabled.
 
 # Author
 
