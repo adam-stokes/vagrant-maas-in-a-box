@@ -29,6 +29,11 @@ potential client?
 % ./start
 ```
 
+# How long does this take?
+
+Running a time gives me about: not long >:)
+System: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz, 8 cpu's, 12G ram
+
 # Provisioning
 
 The previous installer step should've run ansible after image was
