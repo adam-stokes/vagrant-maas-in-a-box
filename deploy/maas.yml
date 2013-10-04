@@ -7,9 +7,9 @@
       action: apt pkg=$item state=installed update_cache=yes
       with_items:
         - language-pack-en-base
-        - ubuntu-cloud-keyring
         - python-apt
         - python-pycurl
+        - ubuntu-cloud-keyring
     - name: Add cloud repo
       action: apt_repository repo="$item" state=present update_cache=yes
       with_items:

@@ -1,6 +1,10 @@
 #!/bin/bash
+# start
+# - Starts up maas + nodes
+
+NODES=${MAAS_NUM_NODES:-10}
 
 vagrant up maas
-for IMG in {1..10}; do
-    vagrant up node$IMG
+for IMG in `seq 1 ${NODES}`; do
+    vagrant up node${IMG}
 done
