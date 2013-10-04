@@ -1,0 +1,16 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: True
+  tasks:
+    - name: Install base packages and other usefulness
+      action: apt pkg=$item state=installed update_cache=yes
+      with_items:
+        - language-pack-en-base
+        - ubuntu-cloud-keyring
+        - python-apt
+        - python-pycurl
+        - maas-enlist
+        - maas-cli
+    - name: enlist node into maas
+      shell: maas-enlist --serverurl 192.168.50.100 --interface eth1

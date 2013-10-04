@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
       vbox.vm.box_url = "http://files.vagrantup.com/precise64.box"
     end
     maas.vm.provision "ansible" do |ansible|
-      ansible.playbook = "deploy/maas.yml"
+      ansible.playbook = "deploy/maas-saucy.yml"
     end
   end
 
@@ -64,14 +64,14 @@ Vagrant.configure("2") do |config|
       vm_conf.vm.provider "virtualbox" do |vbox|
         vbox.gui = gui_mode
         vbox.name = "#{node_name}"
-        vbox.vm.box_url = "http://files.vagrantup.com/precise64.box"
+        #vbox.vm.box_url = "http://files.vagrantup.com/precise64.box"
         vbox.customize ["modifyvm", :id, "--memory", "#{NODE_MEM}"]
         vbox.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
         vbox.customize ["modifyvm", :id, "--boot1", "net"]
         vbox.customize ["modifyvm", :id, "--boot2", "disk"]
       end
       vm_conf.vm.provision "ansible" do |ansible|
-        ansible.playbook = "deploy/nodes.yml"
+        ansible.playbook = "deploy/nodes-saucy.yml"
       end
     end
   end
