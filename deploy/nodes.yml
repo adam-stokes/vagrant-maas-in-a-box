@@ -11,9 +11,12 @@
         - python-apt
         - python-pycurl
     - name: Add cloud repo
-      apt_repository: repo='deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present update_cache=yes
-    - name: Add cloud src repo
-      apt_repository: repo='deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main' state=present
+      action: apt_repository repo="$item" state=present update_cache=yes
+      with_items:
+        - 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main'
+        - 'deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main'
+    - name: Update system
+      apt: upgrade=dist
     - name: install maas-enlist tool
       apt: pkg=maas-enlist state=installed
     - name: enlist node into maas

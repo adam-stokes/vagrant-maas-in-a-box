@@ -42,12 +42,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "maas", primary: true do |maas|
     maas.vm.box = "maas"
     maas.vm.hostname = "maascontroller"
-    maas.vm.network :private_network, ip: BOXES[:maas][:ip]
+    maas.vm.network :private_network, ip: '192.168.50.100'
     maas.vm.network :forwarded_port, guest: 80, host: 8080
     maas.vm.provider "virtualbox" do |vbox|
       vbox.gui = gui_mode
       vbox.name = "maascontroller"
-      vbox.customize ["modifyvm", :id, "--memory", "#{MAAS_MEM}", "--nicpromisc3", "allow-all"]
+      vbox.customize ["modifyvm", :id, "--memory", "#{MAAS_MEM}"]
       vbox.vm.box_url = "http://files.vagrantup.com/precise64.box"
     end
     maas.vm.provision "ansible" do |ansible|

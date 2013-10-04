@@ -3,6 +3,7 @@
 BOX_URL="http://files.vagrantup.com/precise64.box"
 BOX_FNAME="precise64.box"
 BOX_STORAGE="$HOME/VagrantBoxes"
+NODES=${MAAS_NUM_NODES:-10}
 
 if [ ! -d ${BOX_STORAGE} ]; then
     mkdir -p ${BOX_STORAGE}
@@ -11,6 +12,6 @@ if [ ! -d ${BOX_STORAGE} ]; then
 fi
 
 vagrant box add maas "${BOX_STORAGE}/${BOX_FNAME}"
-for IMG in {1..10}; do
-    vagrant box add node$IMG "${BOX_STORAGE}/${BOX_FNAME}"
+for IMG in `seq 1 ${NODES}`; do
+    vagrant box add node${IMG} "${BOX_STORAGE}/${BOX_FNAME}"
 done
