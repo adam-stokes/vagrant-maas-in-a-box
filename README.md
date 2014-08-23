@@ -12,13 +12,12 @@ potential client?
 
 ## In the pipeline:
 
-- Add some juju love
 - Add nodes from different virtualization platforms.
 
 # Pre-reqs
 
 * Needs virtualbox `% sudo apt-get install virtualbox`
-* Needs [vagrant][2] 1.3.3 until [bug #2307][4] can be fixed.
+* Needs [vagrant][2] 1.6.x
 * Needs [ansible][3] installed on host machine
 
 # Setup
@@ -79,8 +78,7 @@ maas:
   type: maas
   maas-server: 'http://localhost:8080/MAAS'
   maas-oauth: '$APIKEY'
-  admin-secret: 'nothing'
-  default-series: 'precise'
+  default-series: 'trusty'
   # Generating key pair
   # % ssh-keygen
   # Follow prompts, then `cat <key.pub>` and append this to `authorized-keys`
@@ -107,5 +105,3 @@ Apache 2.0
  [1]: http://maas.ubuntu.com
  [2]: http://vagrantup.com
  [3]: http://ansibleworks.com/docs/gettingstarted.html#ubuntu-and-debian
- [4]: https://github.com/mitchellh/vagrant/issues/2307
-

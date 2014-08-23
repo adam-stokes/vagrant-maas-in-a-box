@@ -4,20 +4,15 @@
   sudo: True
   tasks:
     - name: Install base packages and other usefulness
-      action: apt pkg=$item state=installed update_cache=yes
+      action: apt pkg={{item}} state=installed update_cache=yes
       with_items:
         - language-pack-en-base
         - ubuntu-cloud-keyring
         - python-apt
         - python-pycurl
-    - name: Add cloud repo
-      action: apt_repository repo="$item" state=present update_cache=yes
-      with_items:
-        - 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main'
-        - 'deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main'
+        - maas-enlist
+        - maas-cli
     - name: Update system
       apt: upgrade=dist
-    - name: install maas-enlist tool
-      apt: pkg=maas-enlist state=installed
     - name: enlist node into maas
-      shell: maas-enlist --serverurl 192.168.50.100 --interface eth1
+      command: maas-enlist --serverurl 192.168.50.100 --interface eth1

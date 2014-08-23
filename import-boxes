@@ -1,19 +1,4 @@
 #!/bin/bash
 
-RELEASE=${MAAS_RELEASE:-saucy}
-#BOX_URL="http://files.vagrantup.com/precise64.box"
-BOX_URL="http://cloud-images.ubuntu.com/vagrant/saucy/current/"
-BOX_FNAME="saucy64.box"
-BOX_PATH="$HOME/VagrantBoxes/${BOX_FNAME}"
-NODES=${MAAS_NUM_NODES:-10}
-
-if [ ! -e ${BOX_PATH} ]; then
-    mkdir -p `dirname ${BOX_STORAGE}`
-    echo "Didnt find an image, downloading pristine box now ..."
-    wget -O "${BOX_PATH}" ${BOX_URL}
-fi
-
-vagrant box add maas "${BOX_STORAGE}/${BOX_FNAME}"
-for IMG in `seq 1 ${NODES}`; do
-    vagrant box add node${IMG} "${BOX_STORAGE}/${BOX_FNAME}"
-done
+BOX_PATH="ubuntu/trusty64"
+vagrant box add ${BOX_PATH}

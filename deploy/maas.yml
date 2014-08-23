@@ -4,18 +4,16 @@
   sudo: True
   tasks:
     - name: Install base packages and other usefulness
-      action: apt pkg=$item state=installed update_cache=yes
+      action: apt pkg={{item}} state=installed update_cache=yes
       with_items:
         - language-pack-en-base
         - python-apt
         - python-pycurl
         - ubuntu-cloud-keyring
-    - name: Add cloud repo
-      action: apt_repository repo="$item" state=present update_cache=yes
-      with_items:
-        - 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main'
-        - 'deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/cloud-tools main'
-    - name: Install maas packages
-      shell: DEBIAN_FRONTEND=noninteractive apt-get install -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -f -q -y maas maas-dns maas-dhcp </dev/null
+        - maas
+        - maas-dns
+        - maas-dhcp
     - name: Add maas superuser
-      shell: echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'pass')" | sudo maas shell
+      command: echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'pass')" | sudo maas shell
+    - name: Add boot images
+      command: maas-import-pxe-files
