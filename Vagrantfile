@@ -27,7 +27,7 @@ end
 
 # IP's range at 192.168.50.[101:1xx] - gives you 99 nodes plus 1 maas instance
 # Keep this in mind when configuring your cluster controller's min/max ip ranges
-BOXES = { maas: { ip: "192.168.50.100" } }
+BOXES = { maas: { ip: "192.168.50.99" } }
 (1..num_nodes).each do |i|
   if i < 10
     gen_ip = "192.168.50.10#{i}"
@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "maas", primary: true do |maas|
     maas.vm.box = "ubuntu/trusty64"
     maas.vm.hostname = "maascontroller"
-    maas.vm.network :private_network, ip: '192.168.50.100'
+    maas.vm.network :private_network, ip: '192.168.50.99'
     maas.vm.network :forwarded_port, guest: 80, host: 8080
     maas.vm.provider "virtualbox" do |vbox|
       vbox.gui = gui_mode
